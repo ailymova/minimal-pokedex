@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+
+    <link rel="stylesheet" href="styles-comp.css">
+    <script defer src="app.js"></script>
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="favicon.ico">
+
+</head>
+
+<body class="bg-gray-200">
+    <nav class="container mx-auto py-8 flex justify-between flex-wrap">
+        <h1 class="text-3xl text-center">Minimal Pokedex</h1>
+        <form action="#">
+            <div class="relative text-gray-600 focus-within:text-gray-400">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+                    <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </span>
+                <input type="search" name="q"
+                    class="py-2 text-sm text-gray-400 bg-gray-100 rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900"
+                    placeholder="Buscar pokemón" autocomplete="off">
+            </div>
+        </form>
+    </nav>
+    <main class="container mx-auto py-12 bg-white">
+        <div id="pokemon__container" class="px-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
+            <!-- <div id="card">
+                <img src="https://picsum.photos/200" alt="Pokemon">
+                <div class="pokemon-info p-4">
+                    <h2 class="text-center font-light uppercase tracking-wide">Nombre Pokemon</h2>
+                    <p
+                        class="py-2 px-4 shadow-md rounded-full bg-red-400 text-white font-semibold text-xs mr-2 inline-block">
+                        Tipo de pokemon</p>
+                </div> -->
+        </div>
+    </main>
+    <footer>
+        <p class="text-center text-sm text-gray-400 my-8">
+
+            Construido con TailwindCSS & PokeApi.co by LauMayo
+        </p>
+    </footer>
+
+</body>
+
+</html>
