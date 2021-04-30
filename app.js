@@ -28,7 +28,7 @@ class Pokemon {
     this.url = url;
     this.id = id;
     this.type = [];
-    this.getAllInfo();
+    // this.getAllInfo();
   }
   // METHOD: GET POKEMON INFO
   getAllInfo() {
@@ -41,7 +41,7 @@ class Pokemon {
       this.weight = (pokemonData.weight / 10).toFixed(2); // in kgs
       pokemonData.types.forEach(types => this.type.push(types.type.name));
       // RENDER POKEMON METHOD FROM APP
-      app.renderPokemonCard.call(this, this);
+      // app.renderPokemonCard.call(this, this); // FUNCT RARA
     });
   }
 }
@@ -64,18 +64,15 @@ class App {
       'Error en la petición'
     )
       .then(data => {
-        // console.log(data.results);
-        data.results.forEach((pokemon, index) => {
-          this.allPokemon.push(
-            new Pokemon(pokemon.name, pokemon.url, index + 1)
-          );
+        console.log(data.results);
+        this.allPokemon = data.results.map((pokemon, index) => {
+          return new Pokemon(pokemon.name, pokemon.url, index + 1);
         });
-        // FIXME: CATCH THIS ERROR
-        // return Promise.resolve();
+        return Promise.all(this.allPokemon.map(el => el.getAllInfo()));
       })
-      // .then(() => {
-      //   this.allPokemon.forEach(pokemon => this.renderPokemonCard(pokemon));
-      // })
+      .then(() => {
+        this.allPokemon.forEach(pokemon => this.renderPokemonCard(pokemon));
+      })
       .catch(err => console.log(err.message));
   }
 
@@ -175,4 +172,4 @@ const typeToColor = function (type) {
 };
 
 // INIT
-const app = new App(151);
+const app = new App(13);
