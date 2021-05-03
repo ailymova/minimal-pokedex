@@ -31177,11 +31177,50 @@ video {
 }
 
 .card {
+  width: 100%;
+  perspective: 800;
+}
+
+.card__content {
   border-radius: 0.5rem;
-  overflow: hidden;
-  --tw-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  height: auto;
+  position: relative;
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   width: 100%;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-duration: 500ms;
+  transform-style: preserve-3d;
+}
+
+.card:hover .card__content {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-duration: 500ms;
+  transform: rotateY(180deg);
+}
+
+.card__front {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.card__back {
+  border-radius: 0.5rem;
+  height: 100%;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 1.5rem;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: rotateY(180deg);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
 }
 
 @media (min-width: 640px) {

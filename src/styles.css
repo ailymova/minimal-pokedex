@@ -3,5 +3,29 @@
 @tailwind utilities;
 
 .card {
-  @apply overflow-hidden rounded-lg shadow-md w-full;
+  @apply w-full;
+  perspective: 800;
+}
+
+.card__content {
+  @apply rounded-lg w-full relative h-auto shadow-lg transition-transform duration-500;
+
+  transform-style: preserve-3d;
+}
+.card:hover .card__content {
+  @apply transition-transform duration-500;
+
+  transform: rotateY(180deg);
+}
+
+.card__front {
+  @apply rounded-lg overflow-hidden;
+}
+
+.card__back {
+  @apply p-6 absolute w-full h-full top-0 text-sm rounded-lg;
+
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
 }

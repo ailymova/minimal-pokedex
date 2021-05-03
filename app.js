@@ -5,7 +5,7 @@
  *
  * ✅ 1. Mostrar una lista en tarjetas de, al menos, los primeros 151 pokemones. Las tarjetas deben mostrar el nombre y
  *    tipo de cada Pokémon (tipo agua, tipo fuego, tipo venenoso, etc.)
- * 2. TODO: Permitir que, al hacer click sobre la tarjeta de un pokemon, se despliegue más información, como el peso, sus
+ * ✅ 2. Permitir que, al hacer click sobre la tarjeta de un pokemon, se despliegue más información, como el peso, sus
  *    movimientos (ataques), etc.
  * ✅ 3. El sitio web debe tener un buscador de pokemones, donde puedas filtrar pokemones por nombre. (Esto es un plus)
  * Cosas a tener en cuenta:
@@ -27,7 +27,8 @@ class Pokemon {
     this.name = name;
     this.url = url;
     this.id = id;
-    this.type = [];
+    this.stats = {};
+
     // this.getAllInfo();
   }
   // METHOD: GET POKEMON INFO
@@ -39,7 +40,14 @@ class Pokemon {
       this.imgSrc = pokemonData.sprites.front_default;
       this.height = (pokemonData.height / 10).toFixed(2); // in mts
       this.weight = (pokemonData.weight / 10).toFixed(2); // in kgs
-      pokemonData.types.forEach(types => this.type.push(types.type.name));
+      this.type = pokemonData.types.map(types => types.type.name);
+      pokemonData.stats.forEach(stat => {
+        this.stats[stat.stat.name] = stat.base_stat;
+      });
+      this.moves = pokemonData.moves.map(mov => mov.move.name);
+
+      // console.log(this);
+
       // RENDER POKEMON METHOD FROM APP
       // app.renderPokemonCard.call(this, this); // FUNCT RARA
     });
@@ -64,7 +72,6 @@ class App {
       'Error en la petición'
     )
       .then(data => {
-        console.log(data.results);
         this.allPokemon = data.results.map((pokemon, index) => {
           return new Pokemon(pokemon.name, pokemon.url, index + 1);
         });
@@ -78,13 +85,13 @@ class App {
 
   // Render Pokemon Card
   renderPokemonCard(pokeObj) {
+    // Create type pills
     let listTypesHtml = '';
     let [colorA, colorB] = pokeObj.type;
     // If pokemon has only one type
     if (!colorB) {
       colorB = colorA;
     }
-    // Create type pills
     pokeObj.type.forEach((type, i, array) => {
       listTypesHtml += `<p class="py-2 px-4 shadow-md rounded-full text-white font-semibold text-xs mr-2 mb-2 inline-block" style="background: ${typeToColor(
         type
@@ -92,21 +99,54 @@ class App {
     ${type[0].toUpperCase() + type.slice(1)}</p>`;
     });
 
-    // Build the html string
+    // Stats list
+    let statListHtml = '';
+    for (let [key, value] of Object.entries(pokeObj.stats)) {
+      statListHtml += `<li>${key
+        .toLocaleUpperCase()
+        .split('-')
+        .join(' ')}: ${value}</li>`;
+    }
+
+    // Move list
+    let moveListHtml = pokeObj.moves.slice(0, 6).join(', ');
+
+    // Build complete html string
     let html = `
       <div class="card">
-         <img src=${pokeObj.imgSrc} alt="${
+        <div class="card__content">
+         <div class="card__front">
+            <img src=${pokeObj.imgSrc} alt="${
       pokeObj.name
     }" class="w-full" style="background: linear-gradient(45deg,${typeToColor(
       colorA
     )} 0%,${typeToColor(colorA)} 50%,${typeToColor(colorB)} 50%,${typeToColor(
       colorB
     )} 100%)">
-         <div class="pokemon-info p-4 text-center">
-             <h2 class="font-light uppercase tracking-wide mb-2">${
-               pokeObj.name
-             }</h2>
-             ${listTypesHtml}
+            <div class="pokemon-info p-4 text-center">
+                <h2 class="font-light uppercase tracking-wide mb-2">${
+                  pokeObj.name
+                }</h2>
+                ${listTypesHtml}
+            </div>
+         </div>
+         <div class="card__back">
+                <h3 class="font-black uppercase tracking-wide mb-2 text-center">${
+                  pokeObj.id
+                }: <span class="font-bold">${pokeObj.name}</span></h3>
+                <ul class="flex justify-between mb-2">
+                  <li>H: ${pokeObj.height} mts</li>
+                  <li>W: ${pokeObj.weight} kg</li>
+                </ul>
+                <span class="font-bold">STATS:</span>
+                <ul class="text-right mr-4 mb-2">
+                  ${statListHtml}
+                </ul>
+                <span class="font-bold">MOVES:</span>
+                <p class="text-xs">
+                  ${moveListHtml}...
+                </p>
+         </div>
          </div>
       </div>`;
 
@@ -172,4 +212,4 @@ const typeToColor = function (type) {
 };
 
 // INIT
-const app = new App(13);
+const app = new App(25);
