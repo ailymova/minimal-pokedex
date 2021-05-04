@@ -14,12 +14,14 @@
  * ✅ - ES6
  * - Repo en Github (Github pages es un plus)
  */
+// TODO: Add README
 
 // DOM ELEMENTS
 const pokeContainer = document.getElementById('pokemon__container');
 const searchForm = document.getElementById('search-form');
 const input = document.getElementById('search-input');
 const clearBtn = document.getElementById('clear-btn');
+const errorModal = document.querySelector('.errorContainer');
 
 // DATA STRUCTURE
 class Pokemon {
@@ -172,10 +174,19 @@ class App {
       found.forEach(pokemon => this.renderPokemonCard(pokemon));
     } else {
       // Render not found
+      this.renderError('No se encontro ningún pokemon');
       console.log('No se encontro ningún pokemon');
     }
     // Clear input
     input.value = '';
+  }
+
+  renderError(msg) {
+    errorModal.querySelector('.msgItem').innerHTML = msg;
+    errorModal.style.display = 'block';
+    errorModal.addEventListener('click', function () {
+      this.style.display = 'none';
+    });
   }
 
   clearContainer() {
@@ -212,4 +223,4 @@ const typeToColor = function (type) {
 };
 
 // INIT
-const app = new App(25);
+const app = new App(151);
